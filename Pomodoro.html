@@ -1,0 +1,181 @@
+<html>
+    <head>
+         <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+        <style>
+            .brown{
+                background-color:#4d3319;
+                margin-top:20px;
+                text-align:center;
+                margin: auto;
+                width: 60%;
+                padding: 10px; 
+                border-radius: 15px; 
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }
+            .colorBG{
+                background-color:#57A4E3;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                border-radius: 10px; 
+            }
+            .timer{
+                background-color:white;
+                margin-left:30px;
+                margin-right:30px;
+                padding-top:60px;
+                padding-bottom:60px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                border-radius: 10px; 
+            }
+
+            .timeSet{
+            }
+            .table1{
+                border: 1px solid black;
+                width:100%;
+                padding:20px;
+            }
+            .butt{
+                padding:50px;
+                padding-top:20px;
+                padding-bottom:20px;
+            }
+        </style>
+    </head>
+    <body style="background-color:#ffa64d;test-align:center"><br><br>
+        <div class="brown" class="shadow p-4 mb-4 bg-white"><br>
+            <div class="colorBG">
+                <div>
+                    <br>
+                    <h1 class="timer"><span id="timeShow">00:00</span></h1>
+                    <br>
+                </div>
+            </div>
+            <br><br>
+            <h2 style="color:white" id="status">Session!</h2>
+            <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6" style="color:white"><b>Session Time</b><br>
+      <span id="sTime">20</span>  min<br><br>
+
+      <button type="button" class="btn btn-warning btn-sm" id="session_less">-</button>
+
+      &nbsp&nbsp&nbsp
+
+      <button type="button" class="btn btn-warning btn-sm" id="session_more">+</button></div>
+
+      <div class="col-sm-6" style="color:white"><b>Break Time</b><br>
+      <span id="bTime">5</span>  min<br><br>
+      <button type="button" class="btn btn-warning btn-sm" id="break_less">-</button>&nbsp&nbsp&nbsp<button type="button" class="btn btn-warning btn-sm" id="break_more">+</button></div>
+    </div>
+    <br><br>
+
+          <div class="row">
+      <div class="col-sm-6"><button type="button" class="btn btn-primary" id="start">Start</button></div>
+      <div class="col-sm-6" style="color:white"><button type="button" class="btn btn-primary" id="reset">Reset</button></div>
+    </div> 
+        </div>
+    </body>
+
+
+
+
+
+
+
+
+
+
+<script>
+    var session_time=0;
+    var break_time=0;
+    var sessless=document.getElementById("session_less");
+    var sessmore=document.getElementById("session_more");
+
+    var breakless=document.getElementById("break_less");
+    var breakmore=document.getElementById("break_more");
+    
+    var startTime=document.getElementById("start");
+    var resetTime=document.getElementById("reset");
+
+    //increase and decrease the time of session and break
+    sessmore.addEventListener("click", function(){
+        session_time++;
+        document.getElementById("sTime").textContent=session_time;
+    });
+    sessless.addEventListener("click", function(){
+        if(session_time>=1){
+        session_time--;
+        document.getElementById("sTime").textContent=session_time;
+        }
+    });
+    breakmore.addEventListener("click", function(){
+        break_time++;
+        document.getElementById("bTime").textContent=break_time;
+    });
+    breakless.addEventListener("click", function(){
+        if(break_time>=1){
+        break_time--;
+        document.getElementById("bTime").textContent=break_time;
+        }
+    });
+    var check;
+    //start button functions
+    startTime.addEventListener("click", function(){
+  var minute = session_time;
+  var sec = 0;
+  var flag=true;
+   check = setInterval(function() {
+       if(minute==0 && sec==0){
+           if(flag==true){
+            document.getElementById("status").textContent="Break!";
+               minute=break_time;
+               sec=0;
+               flag=false;
+           }
+           else{
+            document.getElementById("status").textContent="Session!";
+            clearInterval(check);
+           }
+       }
+       if(minute<10 && sec>=10){
+    document.getElementById("timeShow").innerHTML = "0"+minute + " : " + sec;
+       }
+       else if(minute<10 && sec<10){
+      document.getElementById("timeShow").innerHTML = "0"+minute + " : 0" + sec;     
+       }
+       else if(minute>=10 && sec<10){
+           document.getElementById("timeShow").innerHTML = minute + " : 0" + sec;
+       }
+       else{
+           document.getElementById("timeShow").innerHTML = minute + " : " + sec;
+       }
+    if (sec == 00) {
+      minute--;
+      sec = 60;
+    }
+    sec--;
+  }, 1000);
+
+  
+
+    });
+
+    //reset button functions
+    resetTime.addEventListener("click", function(){
+        clearInterval(check);
+        document.getElementById("timeShow").innerHTML = "00 : 00";
+
+    });
+
+    
+
+
+</script>
+
+</html>
